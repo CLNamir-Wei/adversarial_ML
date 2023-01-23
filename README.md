@@ -90,5 +90,5 @@ pip install ipykernel --quiet
 
 # Note:
 1. The package currently cannot use "ssdlite320_mobilenet_v3_large" as the source model.
-2. YOLO models hasn't been included.
+2. YOLO models haven't been included.
 3. Use models listed in adv_lib/__init__.py at line 10 model_weights.keys()
