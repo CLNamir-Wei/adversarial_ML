@@ -3,7 +3,7 @@ import torch
 import numpy as np
 import os
 from torchmetrics.detection.mean_ap import MeanAveragePrecision
-from typing import List, Dict
+from typing import List, Dict, Callable, Tuple
 from pathlib import Path
 import matplotlib.pyplot as plt
 
@@ -106,6 +106,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
 def compute_detection_metircs(model_outputs: List[Dict], img_data_loader) -> Dict:
+
     metric = MeanAveragePrecision()
     targets = []
     for data_pair in img_data_loader:
@@ -117,11 +118,13 @@ def compute_detection_metircs(model_outputs: List[Dict], img_data_loader) -> Dic
             if 'per_class' not in metric_name}
 
 
-def to_int_tuple(my_tuple: tuple):
+def to_int_tuple(my_tuple: tuple) -> tuple:
+
     return tuple(np.round(my_tuple).astype('int'))
 
 
-def display_image_with_matplot(image, title):
+def display_image_with_matplot(image:np.ndarray, title:str) -> None:
+
     if len(image.shape) < 4:
         exhibited_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     else:
@@ -134,13 +137,13 @@ def display_image_with_matplot(image, title):
     plt.show()
 
 
-def save_one_image(img_path: str, img_arr: np.array):
+def save_one_image(img_path: str, img_arr: np.ndarray) -> None:
 
     cv2.imwrite(img_path, np.squeeze(img_arr, axis=0),
                 [cv2.IMWRITE_JPEG_QUALITY, 99])
 
 
-def load_one_image(img_path: str, resize_dim: tuple = None):
+def load_one_image(img_path: str, resize_dim: tuple = None) -> np.ndarray:
 
     img = cv2.imread(img_path)
 
@@ -153,13 +156,13 @@ def load_one_image(img_path: str, resize_dim: tuple = None):
 
 class AdvImgCreator:
 
-    def __init__(self, img_root: str, output_root: str):
+    def __init__(self, img_root: str, output_root: str) -> None:
 
         self.img_root = img_root
         Path(output_root).mkdir(parents=True, exist_ok=True)
         self.output_root = output_root
 
-    def create_img(self, attack_method, raw_image_name, out_image_name, verbose=False):
+    def create_img(self, attack_method:Callable, raw_image_name:str, out_image_name:str, verbose=False) -> None:
 
         img_path = os.path.join(self.img_root, raw_image_name)
         img_arr = load_one_image(img_path)
@@ -181,12 +184,12 @@ class AdvImgCreator:
 
 class ExtractDtection:
 
-    def __init__(self, prob_threshold: float = 0.5, all_class_list: list = COCO_INSTANCE_CATEGORY_NAMES):
+    def __init__(self, prob_threshold: float = 0.5, all_class_list: list = COCO_INSTANCE_CATEGORY_NAMES) -> None:
 
         self.prob_threshold = prob_threshold
         self.all_class_list = all_class_list
 
-    def extract_predictions(self, raw_predictions: dict, print_predictions=False):
+    def extract_predictions(self, raw_predictions:Dict, print_predictions=False) -> Tuple[List, List]:
         # modified from https://github.com/Trusted-AI/adversarial-robustness-toolbox/blob/main/examples/application_object_detection.py
         # at line 103, def extract_predictions
 
@@ -214,20 +217,20 @@ class ExtractDtection:
             print("\npredicted score:", predictions_score[: predictions_t + 1])
         return predictions_class, predictions_boxes
 
-    def output_formated_pred_list(self, raw_predictions):
+    def output_formated_pred_list(self, raw_predictions:Dict) ->List[Tuple[List, List]]:
         return [self.extract_predictions(yi) for yi in raw_predictions]
 
 
 class SavePlotWithPrediction:
 
-    def __init__(self, pre_train_model, extractor, save_root) -> None:
+    def __init__(self, pre_train_model:Callable, extractor:ExtractDtection, save_root:str) -> None:
 
         self.pre_train_model = pre_train_model
         self.extractor = extractor
         self.save_root = save_root
         Path(self.save_root).mkdir(parents=True, exist_ok=True)
 
-    def display_model_prediction(self, image, save_img_name, plot_box_setting: tuple):
+    def display_model_prediction(self, image:np.ndarray, save_img_name:str, plot_box_setting: tuple) -> None:
         # modified from https://github.com/Trusted-AI/adversarial-robustness-toolbox/blob/main/examples/application_object_detection.py
         # within line 163 to 179
 
@@ -247,7 +250,7 @@ class SavePlotWithPrediction:
                               predictions_class, plot_box_setting, save_plot_path)
 
 
-def plot_image_with_boxes(img, boxes, pred_cls, plot_box_setting: tuple, save_plot_path: str):
+def plot_image_with_boxes(img, boxes, pred_cls, plot_box_setting: tuple, save_plot_path: str) -> None:
     # modified from https://github.com/Trusted-AI/adversarial-robustness-toolbox/blob/main/examples/application_object_detection.py
     # at line 125, def plot_image_with_boxes
 

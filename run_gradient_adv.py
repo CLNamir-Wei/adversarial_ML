@@ -1,9 +1,6 @@
-import numpy as np
 import argparse
 import os
 import re
-import sys
-from pathlib import Path
 from art.attacks import evasion as eva
 from adv_lib.utils import ExtractDtection, SavePlotWithPrediction, AdvImgCreator
 from adv_lib import load_pytorch_pre_trained_model, ModifyPyTorchObjectDetector

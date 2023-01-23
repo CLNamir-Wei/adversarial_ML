@@ -1,19 +1,19 @@
 import torch
 from PIL.Image import Image
 from torchvision import transforms as T
-from typing import Union, Callable, Tuple, List, Any, Dict
+from typing import Tuple, List, Dict
 from torchvision.ops.boxes import box_convert
 from adv_lib.utils import device
 
 
 class CoCoTransforms:
 
-    def __init__(self, input_box_format: str, model_box_format: str):
+    def __init__(self, input_box_format: str, model_box_format: str) ->None:
 
         self.input_box_format = input_box_format
         self.model_box_format = model_box_format
 
-    def img_transformer(self, image: Image):
+    def img_transformer(self, image: Image) -> torch.Tensor:
 
         transforms = []
         if not isinstance(image, Image):
@@ -22,7 +22,7 @@ class CoCoTransforms:
         transforms.append(T.ConvertImageDtype(torch.float))
         return T.Compose(transforms)(image).to(device)
 
-    def target_transformer(self, target: List[Dict]):
+    def target_transformer(self, target: List[Dict]) -> List[Dict]:
 
         boxes = torch.as_tensor([obj['bbox']
                                 for obj in target], dtype=torch.float32)
