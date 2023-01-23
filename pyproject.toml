@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "adversarial machine learning"
+version = "0.0"
+description = "The first project that applies adversarial machine learning on computer vision."
+authors = ["Namir"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+numpy = "^1.24.1"
+torch = "1.12.1"
+torchvision = "0.13.1"
+torchmetrics = "0.9.3"
+pycocotools = "^2.0.6"
+opencv-python = "^4.7.0.68"
+adversarial-robustness-toolbox = "^1.13.0"
+matplotlib = "^3.6.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
