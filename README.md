@@ -1,5 +1,5 @@
 # Adversarial_ML
-Demos of adversarial maching learning in computer vision.
+Demos of adversarial machine learning in computer vision.
 
 # Build the enviroment with poetry
 curl -sSL https://install.python-poetry.org | python3 -
