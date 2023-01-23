@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
     raw_img_names = [p for p in os.listdir(args.raw_image_root) if re.search(
         "%s$" % args.img_type, p) is not None]
-    adv_img_names = ['adv_'+name for name in raw_img_names]
+    adv_img_names = raw_img_names
 
     pgd = eva.ProjectedGradientDescent(estimator=source_model,
                                        eps=args.atk_eps, eps_step=args.atk_eps_step, max_iter=args.atk_max_iter)

@@ -211,7 +211,8 @@ class ExtractDtection:
         # Get the predicted bounding boxes
         predictions_boxes = [[(i[0], i[1]), (i[2], i[3])]
                              for i in raw_pred_boxes]
-
+        if max(predictions_score) < 0.5:
+            self.prob_threshold = np.quantile(np.array(predictions_score), 0.5)    
         # Get a list of index with score greater than threshold
         predictions_t = [predictions_score.index(
             x) for x in predictions_score if x > self.prob_threshold][-1]
