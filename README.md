@@ -8,11 +8,11 @@ mkdir [dirname]
 
 cd [dirname]
 
-poetry init	#create the env in this dir
+poetry init	# use this dir to create the project
 
-poetry config virtualenvs.in-project true
+poetry config virtualenvs.in-project true #create the env of the project in this dir; the .env folder will be in this dir
 
-poetry shell
+poetry shell # Now that the env is in this dir, one can activate the env by enter poetry shell in the terminal under this dir
 
 poetry add numpy
 
