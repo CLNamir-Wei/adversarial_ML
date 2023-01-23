@@ -66,7 +66,7 @@ pip install ipykernel --quiet
 # Example 1: 
 ## Assuming using ./example_imgs/raw_image to create adversarial images, one would like to apply the PGD attack where source model and the victim model is same.
 ### 1. cd to the dir where the env is established
-### 2. open the terminal and poetry shell
+### 2. open the terminal and enter poetry shell
 ### 3. enter the following
 #### python run_gradient_adv.py --source_model ssd300_vgg16 --img_type jpg --raw_image_root ./example_imgs/raw_image --adv_image_root ./example_imgs/adv_image --display_raw_pred_root ./example_imgs/raw_pred --display_adv_pred_root ./example_imgs/adv_pred --atk_eps 270 --atk_eps_step 2 --atk_max_iter 5
 
