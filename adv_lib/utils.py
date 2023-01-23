@@ -2,6 +2,8 @@ import cv2
 import torch
 import numpy as np
 import os
+import shutil
+import re
 from torchmetrics.detection.mean_ap import MeanAveragePrecision
 from typing import List, Dict, Callable, Tuple
 from pathlib import Path
@@ -159,8 +161,12 @@ class AdvImgCreator:
     def __init__(self, img_root: str, output_root: str) -> None:
 
         self.img_root = img_root
+        ann_files = [p for p in os.listdir(self.img_root) if re.search(".json", p) is not None]
         Path(output_root).mkdir(parents=True, exist_ok=True)
         self.output_root = output_root
+        if len(ann_files) > 0:
+            for ann_file in ann_files:
+                shutil.copyfile(os.path.join(self.img_root,ann_file), os.path.join(self.output_root, ann_file))
 
     def create_img(self, attack_method:Callable, raw_image_name:str, out_image_name:str, verbose=False) -> None:
 
