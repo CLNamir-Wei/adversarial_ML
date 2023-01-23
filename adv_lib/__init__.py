@@ -19,13 +19,15 @@ model_weigts = {
 
 
 def load_pytorch_pre_trained_model(model_name:str, n_class:int) -> Callable:
+
     model = getattr(import_module('torchvision.models.detection'), model_name)
     weights = getattr(import_module(
         'torchvision.models.detection'), model_weigts[model_name])
     return model(weights=weights.DEFAULT, num_classes=n_class)
 
 
-def torch_predict_method(torch_model: Callable, img_data_loader: DataLoader) ->List:
+def torch_predict_method(torch_model: Callable, img_data_loader: DataLoader) -> List:
+    
     torch_model.eval()
     outputs = []
     for data_pair in img_data_loader:
