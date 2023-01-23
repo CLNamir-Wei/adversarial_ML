@@ -12,7 +12,7 @@ def get_parser():
                         help='the name of a pre-trained pytorch model')
     parser.add_argument('--coco_img_root', type=str,
                         help='the folder that stores raw images and the annotation file')
-    parser.add_argument('--data_box_formte', type=str, default='xywh',
+    parser.add_argument('--data_box_format', type=str, default='xywh',
                         help='the bounding box fomrate in the data set')
     parser.add_argument('--model_box_format', type=str, default='xyxy',
                         help='the bounding box formate used by the model')
