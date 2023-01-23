@@ -26,7 +26,7 @@ PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-poli
 UBUNTU_CODENAME=jammy
 
 
-# Build the enviroment on lin with poetry
+# Build the enviroment on Linux with poetry
 curl -sSL https://install.python-poetry.org | python3 -
 
 mkdir [dirname]
