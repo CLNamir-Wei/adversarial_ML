@@ -87,3 +87,8 @@ pip install ipykernel --quiet
 #### python run_detection_performance.py --model_name ssdlite320_mobilenet_v3_large --coco_img_root ./sample_COCO_val_2017_data
 ### 5. enter the following to caculate the model performance on the original data set "/sample_adv_coco_imgs"
 #### python run_detection_performance.py --model_name ssdlite320_mobilenet_v3_large --coco_img_root ./sample_adv_coco_imgs
+
+# Note:
+1. The package currently cannot use "ssdlite320_mobilenet_v3_large" as the source model.
+2. YOLO models hasn't been included.
+3. Use models listed in adv_lib/__init__.py at line 10 model_weights.keys()
