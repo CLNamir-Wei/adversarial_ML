@@ -13,9 +13,9 @@ def get_parser():
     parser.add_argument('--coco_img_root', type=str,
                         help='the folder that stores raw images and the annotation file')
     parser.add_argument('--data_box_format', type=str, default='xywh',
-                        help='the bounding box fomrate in the data set')
+                        help='the bounding box fomrate in the data set', required=False)
     parser.add_argument('--model_box_format', type=str, default='xyxy',
-                        help='the bounding box formate used by the model')
+                        help='the bounding box formate used by the model', required=False)
     return parser
 
 
@@ -29,7 +29,7 @@ if __name__ == '__main__':
     img_data = CocoDetection(root=args.coco_img_root,
                              annFile=os.path.join(
                                  args.coco_img_root, 'annotations.json'),
-                             transforms=CoCoTransforms(args.data_box_formte, args.model_box_format))
+                             transforms=CoCoTransforms(args.data_box_format, args.model_box_format))
 
     dataloader = DataLoader(
         img_data,
