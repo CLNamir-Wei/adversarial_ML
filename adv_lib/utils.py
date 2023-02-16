@@ -7,104 +7,28 @@ import re
 from torchmetrics.detection.mean_ap import MeanAveragePrecision
 from typing import List, Dict, Callable, Tuple
 from pathlib import Path
+from adv_lib.coco_labels import COCO_INSTANCE_CATEGORY_NAMES, sysnonyms
 import matplotlib.pyplot as plt
 
-
-COCO_INSTANCE_CATEGORY_NAMES = [
-    "__background__",
-    "person",
-    "bicycle",
-    "car",
-    "motorcycle",
-    "airplane",
-    "bus",
-    "train",
-    "truck",
-    "boat",
-    "traffic light",
-    "fire hydrant",
-    "N/A",
-    "stop sign",
-    "parking meter",
-    "bench",
-    "bird",
-    "cat",
-    "dog",
-    "horse",
-    "sheep",
-    "cow",
-    "elephant",
-    "bear",
-    "zebra",
-    "giraffe",
-    "N/A",
-    "backpack",
-    "umbrella",
-    "N/A",
-    "N/A",
-    "handbag",
-    "tie",
-    "suitcase",
-    "frisbee",
-    "skis",
-    "snowboard",
-    "sports ball",
-    "kite",
-    "baseball bat",
-    "baseball glove",
-    "skateboard",
-    "surfboard",
-    "tennis racket",
-    "bottle",
-    "N/A",
-    "wine glass",
-    "cup",
-    "fork",
-    "knife",
-    "spoon",
-    "bowl",
-    "banana",
-    "apple",
-    "sandwich",
-    "orange",
-    "broccoli",
-    "carrot",
-    "hot dog",
-    "pizza",
-    "donut",
-    "cake",
-    "chair",
-    "couch",
-    "potted plant",
-    "bed",
-    "N/A",
-    "dining table",
-    "N/A",
-    "N/A",
-    "toilet",
-    "N/A",
-    "tv",
-    "laptop",
-    "mouse",
-    "remote",
-    "keyboard",
-    "cell phone",
-    "microwave",
-    "oven",
-    "toaster",
-    "sink",
-    "refrigerator",
-    "N/A",
-    "book",
-    "clock",
-    "vase",
-    "scissors",
-    "teddy bear",
-    "hair drier",
-    "toothbrush",
-]
-
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+def coco_label_translator(label_num:int, used_label_list:List, target_label_list:List) -> int:
+    """
+    Mapping the model output lables to a pre-defined label list, 
+    such as PyTorch 91 COCO names at https://pytorch.org/vision/0.8/models.html.
+
+    label_num: an int outputed by the model
+    used_label_list: the COCO label list used by the model
+    target_label_list: the target COCO label list, such as PyTorch 91 COCO names, used by ground truth data
+    """
+    text_label = used_label_list[label_num]
+    if text_label in target_label_list: 
+        return target_label_list.index(text_label)
+    else:
+        # assume that a sysnomym can only be associated to one key
+        for key in sysnonyms:
+            if text_label in sysnonyms[key]:
+                return target_label_list.index(key)
 
 
 def compute_detection_metircs(model_outputs: List[Dict], img_data_loader) -> Dict:
@@ -134,7 +58,7 @@ def display_image_with_matplot(image:np.ndarray, title:str) -> None:
         exhibited_image = cv2.cvtColor(exhibited_image, cv2.COLOR_BGR2RGB)
 
     plt.axis("off")
-    plt.title("image {}".format(title))
+    plt.title("{}".format(title))
     plt.imshow(exhibited_image.astype(np.uint8))
     plt.show()
 
