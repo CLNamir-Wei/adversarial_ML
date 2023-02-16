@@ -3,7 +3,7 @@ import argparse
 from torchvision.datasets import CocoDetection
 from torch.utils.data import DataLoader
 from adv_lib import CoCoTransforms, torch_predict_method, load_pytorch_pre_trained_model, compute_detection_metircs
-
+from adv_lib.coco_transform import default_transforms
 
 def get_parser():
     
@@ -29,7 +29,7 @@ if __name__ == '__main__':
     img_data = CocoDetection(root=args.coco_img_root,
                              annFile=os.path.join(
                                  args.coco_img_root, 'annotations.json'),
-                             transforms=CoCoTransforms(args.data_box_format, args.model_box_format))
+                             transforms=CoCoTransforms(args.data_box_format, args.model_box_format, default_transforms))
 
     dataloader = DataLoader(
         img_data,
