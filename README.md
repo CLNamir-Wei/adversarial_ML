@@ -29,7 +29,11 @@ UBUNTU_CODENAME=jammy
 # Build the enviroment on Linux with poetry
 curl -sSL https://install.python-poetry.org | python3 -
 
+export PATH="/home/[username]/.local/bin:$PATH"
+
 mkdir [dirname]
+
+pip install cython # avoid the pycocotools installation issue, see https://github.com/cocodataset/cocoapi/issues/172
 
 cd [dirname]
 
@@ -39,21 +43,7 @@ poetry config virtualenvs.in-project true #create the env of the project in this
 
 poetry shell # Now that the env is in this dir, one can activate the env by enter poetry shell in the terminal under this dir
 
-poetry add numpy
-
-poetry add torch==1.12.1
-
-poetry add torchvision==0.13.1
-
-poetry add torchmetrics==0.9.3
-
-poetry add pycocotools
-
-poetry add opencv-python
-
-poetry add adversarial-robustness-toolbox
-
-poetry add matplotlib
+poetry install
 
 # The quick start with the Google colab
 copy the following commands in any cell and the execute it
