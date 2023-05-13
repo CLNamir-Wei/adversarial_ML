@@ -15,6 +15,7 @@ pycocotools = "^2.0.6"
 opencv-python = "^4.7.0.68"
 adversarial-robustness-toolbox = "^1.13.0"
 matplotlib = "^3.6.3"
+pyyaml = ">=5.1"
 
 
 [build-system]
