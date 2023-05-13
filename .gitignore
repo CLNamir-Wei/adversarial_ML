@@ -11,7 +11,7 @@ __pycache__/
 .png
 .gif
 .bmp
-annotation.json
+.json
 
 # Distribution / packaging
 .Python
